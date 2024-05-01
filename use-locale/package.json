@@ -1,0 +1,27 @@
+{
+  "name": "react-locales",
+  "version": "1.0.2",
+  "description": "Simple framework for translations",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marciclabas/react-hooks.git",
+    "directory": "packages/use-locale"
+  },
+  "author": "Marcel Claramunt",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "",
+    "@typescript-eslint/parser": "",
+    "eslint": "",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": ""
+  }
+}
