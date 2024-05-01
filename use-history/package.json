@@ -1,0 +1,26 @@
+{
+  "name": "@moveread/use-history",
+  "version": "1.0.1",
+  "description": "A lightweight React hook for a history of states (with undo/redo)",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marciclabas/react-hooks.git"
+  },
+  "author": "Marcel Claramunt",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "",
+    "@typescript-eslint/parser": "",
+    "eslint": "",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": ""
+  }
+}
