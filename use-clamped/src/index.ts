@@ -1,0 +1,1 @@
+export { useClamped, type ClampConfig, type ClampSetter } from './use-clamped.js'
