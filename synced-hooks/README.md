@@ -15,7 +15,7 @@ ref.current // always the latest state
 
 ### Interval
 
-> Run a callback at an interval. The interval can be changed dynamically.
+> Run a callback at an interval. The interval can be changed dynamically, plus started and stopped
 
 ```jsx
 import { useInterval } from 'synced-hooks/interval'
