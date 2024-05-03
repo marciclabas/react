@@ -1,0 +1,30 @@
+{
+    "name": "fixed-lazy-list",
+    "version": "1.0.3",
+    "description": "Simple wrapper around `react-window-infinite-loader` and `react-window`'s `FixedSizeList`",
+    "type": "module",
+    "scripts": {
+        "build": "npx tsc -p tsconfig.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/marciclabas/react"
+    },
+    "author": "Marcel Claramunt",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/ramda": "^0.29.11",
+        "@types/react-window-infinite-loader": "^1.0.9",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "@typescript-eslint/parser": "^6.21.0",
+        "eslint": "^8.56.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "ramda": "^0.29.1",
+        "react-window-infinite-loader": "^1.0.9",
+        "typescript": "^5.3.2"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-window": "^1.8.10"
+    }
+}
