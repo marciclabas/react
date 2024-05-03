@@ -8,3 +8,7 @@
 - [`use-rotation`](use-rotation): simple hook to keep track of 90º-multiple rotations
 - [`@moveread/use-keys`](use-keys): simple hook to listen to multiple key presses
 - [`synced-hooks`](synced-hooks): hooks for better synchronization
+
+## Components
+
+- [`fixed-lazy-list`](fixed-lazy-list): simple wrapper around `react-window-infinite-loader` and `react-window`'s `FixedSizeList`
