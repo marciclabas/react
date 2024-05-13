@@ -3,7 +3,7 @@ import App from './App.tsx'
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { ChakraProvider, ColorModeScript, ThemeConfig, extendTheme } from '@chakra-ui/react'
 import './index.css'
-import { LocaleProvider } from './locales.ts'
+import { LocaleProvider } from './locales.tsx'
 
 const config: ThemeConfig = {
   initialColorMode: import.meta.env.PROD ? 'system' : 'dark',
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   {
     path: '/nested/route/*',
     element: (
-      <LocaleProvider defaultLocale='en'>
+      <LocaleProvider>
         <App />
       </LocaleProvider>
     )

@@ -3,11 +3,6 @@ import { Navigate, RouteObject, useLocation, useNavigate, useRoutes, Location } 
 import { reroute, useSplitPath } from '@moveread/router-tools'
 import { ProviderParams } from './types.js'
 
-export type Props<Locale extends string> = {
-  defaultLocale?: Locale
-  children?: ReactNode
-}
-
 function rerouteLocale(location: Location, currLocale: string, newLocale: string) {
   const newPath = location.pathname.replace(
     new RegExp(`/${currLocale}`),
@@ -16,7 +11,7 @@ function rerouteLocale(location: Location, currLocale: string, newLocale: string
   return reroute(location, newPath) 
 }
 
-export function routedProvider<Locale extends string>({ locales, context, LocaleCtx }: ProviderParams<Locale>) {
+export function routedProvider<Locale extends string>({ locales, LocaleCtx, useLocale }: ProviderParams<Locale>) {
   
   type ProviderProps = PropsWithChildren & {
     locale: Locale
@@ -25,18 +20,21 @@ export function routedProvider<Locale extends string>({ locales, context, Locale
     const goto = useNavigate()
     const location = useLocation()
 
+    const { setLocale: _setLocale, ...ctx } = useLocale()
+
     const setLocale = useCallback((newLocale: Locale) => {
       goto(rerouteLocale(location, locale, newLocale))
+      _setLocale(newLocale)
     }, [goto, location, locale])
 
     return (
-      <LocaleCtx.Provider value={context(locale, setLocale)}>
+      <LocaleCtx.Provider value={{...ctx, locale, setLocale }}>
         {children}
       </LocaleCtx.Provider>
     )
   }
 
-  function routedProvider({ children, ...p }: Props<Locale>) {
+  function RoutedProvider({ children }: PropsWithChildren) {
     const localeRoutes: RouteObject[] = locales.map(locale => ({
       path: `${locale}/*`,
       element: (
@@ -46,9 +44,10 @@ export function routedProvider<Locale extends string>({ locales, context, Locale
       )
     }))
 
+    const { locale } = useLocale()
     const location = useLocation()
     const [pre, post] = useSplitPath()
-    const defaultLocale = p.defaultLocale ?? locales[0]
+    const defaultLocale = locale
     const defaultPath = reroute(location, `${pre}/${defaultLocale}${post}`)
 
     return useRoutes([...localeRoutes, {
@@ -57,5 +56,5 @@ export function routedProvider<Locale extends string>({ locales, context, Locale
     }])
   }
 
-  return routedProvider
+  return RoutedProvider
 }

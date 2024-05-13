@@ -1,4 +1,4 @@
-import { Context } from "react"
+import { Context, ReactNode } from "react"
 
 export type Translations<Locale extends string> = Record<Locale, string>
 
@@ -16,6 +16,11 @@ export type FallbackedLocaleContext<Locale extends string, Fallback extends Loca
 
 export type ProviderParams<Locale extends string> = {
   LocaleCtx: Context<LocaleContext<Locale>>
-  context(locale: Locale, setLocale: (locale: Locale) => void): LocaleContext<Locale>
+  useLocale(): LocaleContext<Locale>
   locales: Locale[]
+}
+
+export type ProviderProps<Locale> = {
+  defaultLocale: Locale
+  children?: ReactNode
 }

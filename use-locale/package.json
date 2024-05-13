@@ -1,6 +1,6 @@
 {
   "name": "react-locales",
-  "version": "1.0.4",
+  "version": "1.0.10",
   "description": "Simple framework for translations",
   "type": "module",
   "scripts": {
