@@ -8,11 +8,16 @@
 
   ```jsx
   // locales.ts
-  import { make } from "react-locales";
+  import { make, simpleProvider } from 'react-locales'
+  export const { LocaleCtx, context, useLocale, LOCALES } = make(['en', 'es', 'ca'], { fallback: 'en' })
   
-  const { LocaleProvider, useLocale } = make('en', 'ca', 'es', 'fr', 'it')
-  export { LocaleProvider, useLocale }
+  export const LocaleProvider = simpleProvider({ LocaleCtx, context })
+  
+  // or install `@moveread/router-tools` and do
+  import { routedProvider } from 'react-locales/routed'
+  export const LocaleProvider = routedProvider({ LocaleCtx, context })
   ```
+
 
 2. Wrap app in provider
 

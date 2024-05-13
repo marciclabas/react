@@ -16,10 +16,7 @@
     /* Type Checking */
     "strict": true,
     "noImplicitAny": false,
-    "skipLibCheck": true,
-
-    "paths": {
-    }
+    "skipLibCheck": true
   },
   "include": ["./src"]
 }

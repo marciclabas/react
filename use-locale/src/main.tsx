@@ -1,42 +1,40 @@
-import React, { ReactNode, createContext, useContext, useState } from "react"
+import React, { Context, createContext, useContext } from "react"
+import { FallbackedLocaleContext, LocaleContext } from "./types.js"
 
-export type Translations<Locale extends string> = Record<Locale, string>
-
-export type LocaleContext<Locale extends string = string> = {
-  locale: Locale
-  setLocale(locale: Locale): void
-  translate<Fallback extends Locale>(translations: Partial<Translations<Locale>> & Translations<Fallback>, p: { fallback: Fallback }): string
-  translate(translations: Translations<Locale>): string
+export type Config<Locale extends string> = {
+  fallback: Locale
 }
 
-export type Props<Locale> = {
-  defaultLocale: Locale
-  children?: ReactNode
-}
-export function make<Locale extends string>(locale: Locale, ...locales: Locale[]) {
+export function make<Locale extends string>(
+  locales: [Locale, ...Locale[]],
+): {
+  locales: Locale[]
+  useLocale(): LocaleContext<Locale>
+  LocaleCtx: Context<LocaleContext<Locale>>
+  context(locale: Locale, setLocale: (locale: Locale) => void): LocaleContext<Locale>
+};
+export function make<Locale extends string, Fallback extends Locale>(
+  locales: [Locale, ...Locale[]],
+  { fallback }: Config<Fallback>
+): {
+  locales: Locale[]
+  useLocale(): FallbackedLocaleContext<Locale, Fallback>
+  LocaleCtx: Context<FallbackedLocaleContext<Locale, Fallback> | LocaleContext<Locale>>
+  context(locale: Locale, setLocale: (locale: Locale) => void): FallbackedLocaleContext<Locale, Fallback>
+};
+
+export function make<Locale extends string, Fallback extends Locale>(locales: [Locale, ...Locale[]], config?: Config<Fallback>) {
   
-  const LocaleCtx = createContext<LocaleContext<Locale>>({ locale, setLocale() {}, translate: () => '' })
+  const fallback = config?.fallback
+  const LocaleCtx = createContext<FallbackedLocaleContext<Locale, Fallback>>({} as any)
   const useLocale = () => useContext(LocaleCtx)
 
-
-  function translate(translations: Record<Locale, string>): Translations<Locale> {
-    return translations
+  function context(locale: Locale, setLocale: (locale: Locale) => void): FallbackedLocaleContext<Locale, Fallback> {
+    return {
+      locale, setLocale, fallback: fallback as any,
+      translate: (translations) => translations[locale] ?? translations[fallback ?? locale]
+    }
   }
 
-  function LocaleProvider({ defaultLocale, children }: Props<Locale>) {
-    const [locale, setLocale] = useState<Locale>(defaultLocale)
-    const t = (t: Translations<Locale>, cfg?) => t[locale] ?? t[cfg?.fallback]
-    return (
-      <LocaleCtx.Provider value={{ locale, setLocale, translate: t }}>
-        {children}
-      </LocaleCtx.Provider>
-    )
-  }
-
-  return {
-    LocaleProvider,
-    useLocale,
-    translate,
-    LOCALES: [locale, ...locales]
-  }
+  return { LocaleCtx: LocaleCtx as any, context, useLocale, locales }
 }

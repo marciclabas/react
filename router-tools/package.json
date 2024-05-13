@@ -1,20 +1,19 @@
 {
-  "name": "synced-hooks",
-  "version": "1.1.2",
-  "description": "Hooks for better synchronization",
+  "name": "@moveread/router-tools",
+  "version": "1.0.2",
+  "description": "Tools for react-router-dom",
   "type": "module",
   "scripts": {
     "build": "npx tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moveread/REPO.git"
+    "url": "git+https://github.com/marciclabas/router.git"
   },
   "author": "Marcel Claramunt",
   "license": "ISC",
   "devDependencies": {
-    "@haskellian/async": "^1.0.2",
-    "@types/react": "^18.3.1",
+    "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
@@ -23,9 +22,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
     "typescript": ""
-  },
-  "peerDependencies": {
-    "@haskellian/async": "^1.0.2"
   }
 }
