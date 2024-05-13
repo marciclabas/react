@@ -7,17 +7,18 @@ export type BaseContext<Locale extends string = string> = {
   setLocale(locale: Locale): void
 }
 export type LocaleContext<Locale extends string> = BaseContext<Locale> & {
-  translate(translations: Translations<Locale>): string
+  t(translations: Translations<Locale>): string
 }
 export type FallbackedLocaleContext<Locale extends string, Fallback extends Locale> = BaseContext<Locale> & {
   fallback: Fallback
-  translate(translations: Partial<Translations<Locale>> & Translations<Fallback>): string
+  t(translations: Partial<Translations<Locale>> & Translations<Fallback>): string
 }
 
 export type ProviderParams<Locale extends string> = {
   LocaleCtx: Context<LocaleContext<Locale>>
   useLocale(): LocaleContext<Locale>
   locales: Locale[]
+  makeT(locale: Locale): (translations: Translations<Locale>) => string
 }
 
 export type ProviderProps<Locale> = {

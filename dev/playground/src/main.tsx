@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { ChakraProvider, ColorModeScript, ThemeConfig, extendTheme } from '@chakra-ui/react'
 import './index.css'
-import { LocaleProvider } from './locales.tsx'
 
 const config: ThemeConfig = {
   initialColorMode: import.meta.env.PROD ? 'system' : 'dark',
@@ -26,16 +25,10 @@ const colors = {
 
 const theme = extendTheme({ config, colors })
 
-const router = createBrowserRouter([
-  {
-    path: '*',
-    element: (
-      <LocaleProvider defaultLocale='es'>
-        <App />
-      </LocaleProvider>
-    )
-  },
-])
+const router = createBrowserRouter([{
+  path: '*',
+  element: <App />
+}])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <>

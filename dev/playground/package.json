@@ -1,5 +1,5 @@
 {
-  "name": "lang-app",
+  "name": "playground",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,12 +16,9 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@moveread/router-tools": "^1.0.2",
     "framer-motion": "^11.0.6",
-    "preferred-locale": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-locales": "^1.0.12",
     "react-router-dom": "^6.22.1"
   },
   "devDependencies": {

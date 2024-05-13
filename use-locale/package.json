@@ -1,6 +1,6 @@
 {
   "name": "react-locales",
-  "version": "1.0.10",
+  "version": "1.0.18",
   "description": "Simple framework for translations",
   "type": "module",
   "scripts": {
@@ -14,19 +14,21 @@
   "author": "Marcel Claramunt",
   "license": "ISC",
   "devDependencies": {
-    "@moveread/router-tools": "^1.0.2",
+    "@moveread/router-tools": "^1.0.4",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "",
     "@typescript-eslint/parser": "",
     "eslint": "",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "preferred-locale": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "typescript": ""
   },
   "peerDependencies": {
-    "@moveread/router-tools": "^1.0.2"
+    "@moveread/router-tools": "^1.0.2",
+    "preferred-locale": "^2.0.2"
   }
 }

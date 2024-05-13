@@ -2,6 +2,28 @@
 
 > Simple framework for translations. Statically typed.
 
+## Installation
+
+- The full thing
+
+```bash
+npm i react-locales @moveread/router-tools preferred-locale
+```
+
+```bash
+yarn add react-locales @moveread/router-tools preferred-locale
+```
+
+- Simplified, w/o language detection nor routes
+
+```bash
+npm i react-locales
+```
+
+```bash
+yarn add react-locales
+```
+
 ## Usage
 
 1. Define what locales you want
@@ -13,6 +35,8 @@
   export const framework = make(['en', 'es', 'ca'], { fallback: 'en' })
   export const { LocaleCtx, useLocale, locales, DefaultProvider } = framework
   export const LocaleProvider = provider(framework)
+  
+  // or use the `DefaultProvider` with the basic installation
   ```
 
 
@@ -29,33 +53,35 @@
   )
   ```
 
-3. Define translations where they're used
+3. Define translations where they're used or elsewhere
 
   ```jsx
   // MyComponent.tsx
-  import { useLocale } from '.locales.ts'
+  import { useLocale, t } from './locales.ts'
+
+  const subtitle = t({
+    en: 'Hello',
+    es: 'Hola',
+    ca: 'Hola',
+    ...
+  })
 
   function MyComponent() {
 
-    const { translate, setLocale } = useLocale()
+    const { t, setLocale } = useLocale()
 
-    const title = translate({
+    const title = t({
       en: '...',
       ca: '...',
       es: '...',
       fr: '...',
       it: '...'
     })
-    // OR provide a fallback language to allow partial translations
-    const title = translate({
-      en: '...',
-      ca: '...',
-      es: '...',
-    }, { fallback: 'en' }) // the fallback language must be in the translations, ofc
 
     return (
       <div>
         <h1>{title}</h1>
+        <h2>{t(subtitle)}</h2>
         <button onClick={() => setLocale('en')}>EN</button>
       </div>
     )
@@ -68,7 +94,8 @@
 
 1. The `:locale` route parameter
 2. `localStorage.getItem('locale')`
-3. The `defaultLocale` prop
+3. The detected `preferredLocale()` (using [`preferred-locale`](https://www.npmjs.com/package/preferred-locale))
+4. The `defaultLocale` prop
    
 But you can stack these arbitrarily, even passing your own provider. For example, let's say you want to give `localStorage` priority over the route parameter:
 
@@ -77,7 +104,7 @@ import { make } from 'react-locales'
 import { localStorageProvider } from 'react-locales/local'
 import { routedProvider } from 'react-locales/routed'
 export const framework = make(['en', 'es', 'ca'], { fallback: 'en' }) // eslint-disable-line
-export const { LocaleCtx, useLocale, locales, DefaultProvider } = framework // eslint-disable-line
+export const { LocaleCtx, useLocale, locales, DefaultProvider, makeT, t } = framework // eslint-disable-line
 
 export function LocaleProvider() {
   return (
@@ -92,23 +119,16 @@ export function LocaleProvider() {
 }
 ```
 
-As they're written, each provider uses the wrapping context as a fallback default, and forwards the `setLocale` calls to it.
-
-So, you can define a custom provider as:
+As they're written, each provider uses the wrapping context as a fallback default So, you can define a custom provider as:
 
 ```jsx
-function MyLocaleProvider() {
-  const { locale: defaultLocale, setLocale: setWrapperLocale, ...ctx } = useLocale()
+function MyLocaleProvider({ children }) {
+  const { locale: defaultLocale } = useLocale()
   
   const [myLocale, setMyLocale] = useState(defaultLocale)
 
-  const setLocale = useCallback(locale => { 
-    setMyLocale(locale)
-    setWrapperLocale(locale)
-  }, [])
-
   return (
-    <LocaleCtx.Provider value={{ ...ctx, locale: myLocale, setMyLocale }}>
+    <LocaleCtx.Provider value={{ locale: myLocale, setLocale: setMyLocale, t: makeT(myLocale) }}>
       {children}
     </LocaleCtx.Provider>
   )

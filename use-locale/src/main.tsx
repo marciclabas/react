@@ -1,5 +1,5 @@
-import React, { Context, ReactNode, createContext, useContext, useState } from "react"
-import { FallbackedLocaleContext, LocaleContext, ProviderProps } from "./types.js"
+import React, { Context, ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { FallbackedLocaleContext, LocaleContext, ProviderProps, Translations } from "./types.js"
 
 export type Config<Locale extends string> = {
   fallback: Locale
@@ -12,6 +12,8 @@ export function make<Locale extends string>(
   useLocale(): LocaleContext<Locale>
   LocaleCtx: Context<LocaleContext<Locale>>
   DefaultProvider(props: ProviderProps<Locale>): JSX.Element
+  t(translations: Translations<Locale>): Translations<Locale>
+  makeT(locale: Locale): (translations: Translations<Locale>) => string
 };
 
 export function make<Locale extends string, Fallback extends Locale>(
@@ -22,6 +24,8 @@ export function make<Locale extends string, Fallback extends Locale>(
   useLocale(): FallbackedLocaleContext<Locale, Fallback>
   LocaleCtx: Context<FallbackedLocaleContext<Locale, Fallback> | LocaleContext<Locale>>
   DefaultProvider(props: ProviderProps<Locale>): JSX.Element
+  t(translations: Partial<Translations<Locale>> & Translations<Fallback>): Partial<Translations<Locale>> & Translations<Fallback>
+  makeT(locale: Locale): (translations: Partial<Translations<Locale>> & Translations<Fallback>) => string
 };
 
 export function make<Locale extends string, Fallback extends Locale>(locales: [Locale, ...Locale[]], config?: Config<Fallback>) {
@@ -30,11 +34,14 @@ export function make<Locale extends string, Fallback extends Locale>(locales: [L
   const LocaleCtx = createContext<FallbackedLocaleContext<Locale, Fallback>>({} as any)
   const useLocale = () => useContext(LocaleCtx)
 
+  const makeT = (locale: Locale) => (translations: Partial<Translations<Locale>> & Translations<Fallback>) => translations[locale] ?? translations[fallback ?? locale]
+
   function DefaultProvider({ defaultLocale, children }: ProviderProps<Locale>) {
     const [locale, setLocale] = useState<Locale>(defaultLocale)
+    useEffect(() => console.log('Locale', locale), [locale])
     const ctx: FallbackedLocaleContext<Locale, Fallback> = {
       locale, setLocale, fallback: fallback as any,
-      translate: (translations) => translations[locale] ?? translations[fallback ?? locale]
+      t: makeT(locale)
   }
 
     return (
@@ -44,5 +51,8 @@ export function make<Locale extends string, Fallback extends Locale>(locales: [L
     )
   }
 
-  return { LocaleCtx: LocaleCtx as any, useLocale, locales, DefaultProvider }
+  return {
+    LocaleCtx: LocaleCtx as any, useLocale, locales, DefaultProvider,
+    t: t => t, makeT
+  }
 }

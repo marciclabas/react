@@ -1,7 +1,11 @@
 import { useCallback } from 'react';
 import { useResolvedPath, useMatch, useLocation, useNavigate, Location, NavigateOptions } from 'react-router-dom'
 
+const removeTrailingSlashes = (url: string) => url.replace(/\/$/, '')
+
 /** Split the current path into parent and children routes
+ *
+ * - Both paths start with a slash, and end without one
  * 
  * ```
  * function Parent() {
@@ -23,7 +27,7 @@ import { useResolvedPath, useMatch, useLocation, useNavigate, Location, Navigate
 export function useSplitPath(): [string, string] {
   const resolvedPath = useResolvedPath('');
   const match = useMatch({ path: resolvedPath.pathname, end: false });
-  const basePath = match?.pathnameBase ?? '/'
+  const basePath = removeTrailingSlashes(match?.pathnameBase ?? '')
   const complement = basePath ? location.pathname.substring(basePath.length) : location.pathname;
   return [basePath, complement]
 }
