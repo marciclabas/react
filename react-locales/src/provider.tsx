@@ -20,7 +20,6 @@ export function provider<Locale extends string>({ DefaultProvider, ...params }: 
   const PreferredProvider = preferredProvider(params)
 
   function Provider({ defaultLocale, children, preferredOptions, replaceRoute }: Props<Locale>) {
-    console.log('Provider')
     return (
       <DefaultProvider defaultLocale={defaultLocale}>
         <PreferredProvider {...preferredOptions}>

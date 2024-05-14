@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, ReactNode, useCallback } from "react"
 import { Navigate, RouteObject, useLocation, useNavigate, useRoutes, Location, useResolvedPath, useMatch } from "react-router-dom"
-import { reroute } from '@moveread/router-tools'
+import { reroute, useSplitPath } from '@moveread/router-tools'
 import { ProviderParams } from './types.js'
 
 function rerouteLocale(location: Location, currLocale: string, newLocale: string) {
@@ -11,15 +11,15 @@ function rerouteLocale(location: Location, currLocale: string, newLocale: string
   return reroute(location, newPath) 
 }
 
-const trimURL = (url: string) => url.replace(/\/$/, '')
+// const trimURL = (url: string) => url.replace(/\/$/, '')
 
-export function useSplitPath(): [string, string] {
-  const resolvedPath = useResolvedPath('');
-  const match = useMatch({ path: resolvedPath.pathname, end: false });
-  const basePath = trimURL(match?.pathnameBase ?? '')
-  const complement = basePath ? location.pathname.substring(basePath.length) : location.pathname;
-  return [basePath, complement]
-}
+// export function useSplitPath(): [string, string] {
+//   const resolvedPath = useResolvedPath('');
+//   const match = useMatch({ path: resolvedPath.pathname, end: false });
+//   const basePath = trimURL(match?.pathnameBase ?? '')
+//   const complement = basePath ? location.pathname.substring(basePath.length) : location.pathname;
+//   return [basePath, complement]
+// }
 
 export type Props = {
   children?: ReactNode

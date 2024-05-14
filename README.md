@@ -2,7 +2,7 @@
 > Monorepo: collection of useful React hooks and components
 
 ## Hooks
-- [`use-locale`](use-locale): simple, statically typed translations
+- [`react-locales`](react-locales): simple, statically typed translations
 - [`use-history`](use-history): lightweight history of states (with undo/redo)
 - [`use-clamped`](use-clamped): clamped `useState<number>` (pre- and post-update)
 - [`use-rotation`](use-rotation): simple hook to keep track of 90º-multiple rotations

@@ -1,6 +1,6 @@
 {
   "name": "react-locales",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Simple framework for translations",
   "type": "module",
   "scripts": {
@@ -9,12 +9,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marciclabas/react-hooks.git",
-    "directory": "packages/use-locale"
+    "directory": "react-locales"
   },
   "author": "Marcel Claramunt",
   "license": "ISC",
   "devDependencies": {
-    "@moveread/router-tools": "^1.0.4",
+    "@moveread/router-tools": "^1.0.6",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "",
@@ -28,7 +28,7 @@
     "typescript": ""
   },
   "peerDependencies": {
-    "@moveread/router-tools": "^1.0.2",
+    "@moveread/router-tools": "^1.0.6",
     "preferred-locale": "^2.0.2"
   }
 }
