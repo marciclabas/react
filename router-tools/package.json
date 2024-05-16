@@ -1,6 +1,6 @@
 {
   "name": "@moveread/router-tools",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Tools for react-router-dom",
   "type": "module",
   "scripts": {

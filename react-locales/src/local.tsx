@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useState } from "react"
+import React, { PropsWithChildren, useCallback, useEffect, useState } from "react"
 import { ProviderParams } from './types.js'
 
 export function localStorageProvider<Locale extends string>({ locales, LocaleCtx, useLocale, makeT }: ProviderParams<Locale>) {
@@ -15,7 +15,12 @@ export function localStorageProvider<Locale extends string>({ locales, LocaleCtx
   function LocalStorageProvider({ children }: PropsWithChildren) {
     
     const { locale: defaultLocale, setLocale: setLocaleOuter } = useLocale()
-    const [locale, _setLocale] = useState(() => ensureLocale(defaultLocale))
+    const [locale, _setLocale] = useState(defaultLocale)
+
+    useEffect(() => {
+      const stored = ensureLocale(defaultLocale)
+      _setLocale(stored)
+    }, [])
     
     const setLocale = useCallback((locale: Locale) => {
       localStorage.setItem('locale', locale)

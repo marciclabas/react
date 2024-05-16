@@ -26,9 +26,10 @@ const removeTrailingSlashes = (url: string) => url.replace(/\/$/, '')
  */
 export function useSplitPath(): [string, string] {
   const resolvedPath = useResolvedPath('');
+  const { pathname } = useLocation()
   const match = useMatch({ path: resolvedPath.pathname, end: false });
   const basePath = removeTrailingSlashes(match?.pathnameBase ?? '')
-  const complement = basePath ? location.pathname.substring(basePath.length) : location.pathname;
+  const complement = basePath ? pathname.substring(basePath.length) : pathname;
   return [basePath, complement]
 }
 
