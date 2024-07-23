@@ -1,1 +1,0 @@
-export { type Rotation, useRotation, toCSSdegrees } from './use-rotation.js'
