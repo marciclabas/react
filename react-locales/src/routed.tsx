@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from "react"
+import React, { ReactNode, useCallback, useMemo } from "react"
 import { Navigate, RouteObject, useLocation, useNavigate, useRoutes, Location } from "react-router-dom"
 import { reroute, useSplitPath } from '@moveread/router-tools'
 import { ProviderParams } from './types.js'
@@ -51,14 +51,18 @@ export function routedProvider<Locale extends string>({ locales, LocaleCtx, useL
   }
 
   function RoutedProvider({ children, replace }: Props) {
-    const localeRoutes: RouteObject[] = locales.map(locale => ({
+    const localeRoutes: RouteObject[] = useMemo(() => locales.map(locale => ({
       path: `${locale}/*`,
       element: (
         <LocaleProvider replace={replace} locale={locale}>
           {children}
         </LocaleProvider>
       )
-    }))
+    })), [replace])
+    const allRoutes = useMemo(() => [...localeRoutes, {
+      path: '*',
+      element: <Navigate to={defaultPath} replace />
+    }], [localeRoutes])
 
     const { locale } = useLocale()
     const location = useLocation()
@@ -66,10 +70,7 @@ export function routedProvider<Locale extends string>({ locales, LocaleCtx, useL
     const defaultLocale = locale
     const defaultPath = reroute(location, `${pre}/${defaultLocale}${post}`)
 
-    return useRoutes([...localeRoutes, {
-      path: '*',
-      element: <Navigate to={defaultPath} replace />
-    }])
+    return useRoutes(allRoutes)
   }
 
   return RoutedProvider
