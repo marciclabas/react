@@ -38,7 +38,6 @@ export function make<Locale extends string, Fallback extends Locale>(locales: [L
 
   function DefaultProvider({ defaultLocale, children }: ProviderProps<Locale>) {
     const [locale, setLocale] = useState<Locale>(defaultLocale)
-    useEffect(() => console.log('Locale', locale), [locale])
     const ctx: FallbackedLocaleContext<Locale, Fallback> = {
       locale, setLocale, fallback: fallback as any,
       t: makeT(locale)

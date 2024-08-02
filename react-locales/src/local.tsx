@@ -15,16 +15,14 @@ export function localStorageProvider<Locale extends string>({ locales, LocaleCtx
   function LocalStorageProvider({ children }: PropsWithChildren) {
     
     const { locale: defaultLocale, setLocale: setLocaleOuter } = useLocale()
-    const [locale, _setLocale] = useState(defaultLocale)
+    const [locale, _setLocale] = useState(() => ensureLocale(defaultLocale))
 
     useEffect(() => {
-      const stored = ensureLocale(defaultLocale)
-      _setLocale(stored)
-    }, [])
+      setLocaleOuter(locale)
+    }, [locale])
     
     const setLocale = useCallback((locale: Locale) => {
       localStorage.setItem('locale', locale)
-      setLocaleOuter(locale)
       _setLocale(locale)
     }, [])
 

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo } from "react"
+import React, { ReactNode, useCallback, useEffect, useMemo } from "react"
 import { Navigate, RouteObject, useLocation, useNavigate, useRoutes, Location } from "react-router-dom"
 import { reroute, useSplitPath } from '@moveread/router-tools'
 import { ProviderParams } from './types.js'
@@ -10,16 +10,6 @@ function rerouteLocale(location: Location, currLocale: string, newLocale: string
   )
   return reroute(location, newPath) 
 }
-
-// const trimURL = (url: string) => url.replace(/\/$/, '')
-
-// export function useSplitPath(): [string, string] {
-//   const resolvedPath = useResolvedPath('');
-//   const match = useMatch({ path: resolvedPath.pathname, end: false });
-//   const basePath = trimURL(match?.pathnameBase ?? '')
-//   const complement = basePath ? location.pathname.substring(basePath.length) : location.pathname;
-//   return [basePath, complement]
-// }
 
 export type Props = {
   children?: ReactNode
@@ -43,6 +33,10 @@ export function routedProvider<Locale extends string>({ locales, LocaleCtx, useL
       goto(rerouteLocale(location, locale, newLocale), { replace })
     }, [goto, location, locale])
 
+    useEffect(() => {
+      setLocaleOuter(locale)
+    }, [locale])
+
     return (
       <LocaleCtx.Provider value={{ locale, setLocale, t: makeT(locale) }}>
         {children}
@@ -58,18 +52,17 @@ export function routedProvider<Locale extends string>({ locales, LocaleCtx, useL
           {children}
         </LocaleProvider>
       )
-    })), [replace])
-    const allRoutes = useMemo(() => [...localeRoutes, {
-      path: '*',
-      element: <Navigate to={defaultPath} replace />
-    }], [localeRoutes])
+    })), [replace, children])
 
     const { locale } = useLocale()
     const location = useLocation()
     const [pre, post] = useSplitPath()
     const defaultLocale = locale
     const defaultPath = reroute(location, `${pre}/${defaultLocale}${post}`)
-
+    const allRoutes = useMemo(() => [...localeRoutes, {
+      path: '*',
+      element: <Navigate to={defaultPath} replace />
+    }], [localeRoutes, defaultPath])
     return useRoutes(allRoutes)
   }
 
